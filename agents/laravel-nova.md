@@ -2,7 +2,7 @@
 name: laravel-nova
 description: Use this agent when working on Laravel Nova admin panels — building or modifying Nova Resources, Fields, Actions, Lenses, Filters, Metrics, Cards, Tools, or Policies, wiring up tabs/panels, adding CSV/Excel export, or writing Laravel Dusk browser tests for Nova screens. Trigger phrases include "add a Nova resource", "create a Nova action/lens/filter/metric", "organize these fields into tabs", "add help text to the Nova fields", "export this resource to CSV/Excel", "eager load relations in the Nova index query", or "write a Dusk test for this Nova screen".
 model: inherit
-color: pink
+color: blue
 tools: Read, Edit, Bash, Grep, Glob, Skill
 ---
 
