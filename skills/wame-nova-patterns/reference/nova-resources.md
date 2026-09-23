@@ -343,7 +343,12 @@ class Post extends Resource
 ## Translation keys
 
 Every label, help text, tab, button and enum option resolves through a language
-file, keyed off the module prefix.
+file, keyed off the module prefix. The **key** is always English words (e.g.
+`field.title.help`); the **value** in the language file is the target language.
+Never put a raw string literal where a translation key belongs — not even
+"temporarily", not even for a field that looks obvious. Which languages a
+project ships, and whether translation into all of them happens automatically,
+is defined in that project's own `CLAUDE.md` — check it before assuming a list.
 
 ```
 module::entity.singular
@@ -405,7 +410,13 @@ return [
 - Set `$translatePrefix` with a trailing `::` (e.g. `'user::'`).
 - Use the `title()` method, not the `$title` property.
 - Use the `searchableColumns()` method, not the `$search` property.
-- Add `help()` with a translation key to every field.
+- Add `help()` with a translation key to **every** field — no exceptions for
+  fields that seem self-explanatory. Write a short, plain-language explanation
+  of what the field is for; a translated label alone is not enough.
+- This applies when editing an **existing** resource too: if you touch a
+  resource's `fields()` for any reason, fix any sibling fields in the same
+  method that are still missing `help()` or still hardcode a label/help string
+  instead of a translation key.
 - Add `sortable()`, `filterable()`, `copyable()` where they make sense.
 - Add `showOnPreview()` / `showWhenPeeking()` for key fields.
 - Organize fields with `Panel`s (tabs).
