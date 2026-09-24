@@ -187,13 +187,19 @@ class SendWelcomeEmail extends Action
 
 **Action checklist:** translate the name and messages, add help text to fields,
 return `Action::message()` (or `Action::danger()`) for feedback, queue slow work,
-and type-check each model in `handle()`.
+and type-check each model in `handle()`. Gate the role with `canSee()` and the
+record with `canRun()`; a destructive action extends `DestructiveAction` and sets a
+translated `confirmText()`; an action the user cannot use either stays hidden or
+says why — see [`nova-cross-cutting-quality.md`](nova-cross-cutting-quality.md).
 
 ## Lenses
 
 A lens is an alternate, pre-filtered view of a resource. Eager-load in `query()`,
 keep field configuration consistent with the main resource, and give it a
-`uriKey()`. Lenses may also declare their own `filters()` and `actions()`.
+`uriKey()`. Lenses may also declare their own `filters()` and `actions()`. A lens
+builds its own `query()`, so apply the tenant scope there too (or rely on a global
+scope); a menu entry for it needs the explicit `canSee()` shown in
+[`nova-cross-cutting-quality.md`](nova-cross-cutting-quality.md).
 
 ```php
 <?php

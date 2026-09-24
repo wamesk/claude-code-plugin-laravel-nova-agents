@@ -8,6 +8,12 @@ database state afterwards.
 `Vendor` is a placeholder for the vendor namespace root, defined per-project in
 `CLAUDE.md`.
 
+The CRUD, action, and filter tests below deep-link with `visit('/nova/resources/…')`
+to keep each test focused — that is fine. In addition, every **new** screen needs
+one test that reaches it by clicking, from `/nova`, without typing its URL (see
+*Reachability — navigate via the menu*). A deep-linked test passes even when no
+menu entry or relation tab leads to the screen.
+
 ## Resource CRUD
 
 ```php
@@ -146,6 +152,64 @@ test('admin can filter posts by status', function () {
 });
 ```
 
+## Reachability — navigate via the menu
+
+Start at `/nova` and click. Nova's sidebar carries `dusk="sidebar-menu"`,
+relation panels `dusk="<child-uri-key>-index-component"`, index rows
+`dusk="<id>-view-button"`, and the 403 page `dusk="403-error-page"`. Click menu
+entries by their translated label, so a renamed or untranslated label fails too.
+
+```php
+<?php
+
+use Laravel\Dusk\Browser;
+use Vendor\Invoice\Models\Invoice;
+use Vendor\User\Models\User;
+
+test('invoices are reachable from the sidebar menu', function () {
+    $accountant = User::factory()->create(['role' => 'accountant']);
+
+    $this->browse(function (Browser $browser) use ($accountant) {
+        $browser->loginAs($accountant)
+            ->visit('/nova') // the entry page, never the target screen
+            ->within('@sidebar-menu', fn (Browser $menu) => $menu->clickLink(__('invoice::invoice.plural')))
+            ->waitForLocation('/nova/resources/invoices')
+            ->assertSee(__('invoice::invoice.plural'));
+    });
+});
+
+test('invoice lines are reachable through the invoice detail', function () {
+    $accountant = User::factory()->create(['role' => 'accountant']);
+    $invoice = Invoice::factory()->hasLines(1)->create();
+    $line = $invoice->lines->first();
+
+    $this->browse(function (Browser $browser) use ($accountant, $invoice, $line) {
+        $browser->loginAs($accountant)
+            ->visit('/nova/resources/invoices/' . $invoice->getKey()) // the parent, reached via the menu in its own test
+            ->waitFor('@invoice-lines-index-component')
+            ->within('@invoice-lines-index-component', fn (Browser $panel) => $panel->click('@' . $line->getKey() . '-view-button'))
+            ->waitForLocation('/nova/resources/invoice-lines/' . $line->getKey());
+    });
+});
+
+test('users without access see no invoices entry and get the 403 page', function () {
+    $clerk = User::factory()->create(['role' => 'clerk']);
+
+    $this->browse(function (Browser $browser) use ($clerk) {
+        $browser->loginAs($clerk)
+            ->visit('/nova')
+            ->within('@sidebar-menu', fn (Browser $menu) => $menu->assertDontSeeLink(__('invoice::invoice.plural')))
+            ->visit('/nova/resources/invoices')
+            ->waitFor('@403-error-page');
+    });
+});
+```
+
+A `->collapsable()` menu section renders its items only while expanded. A fresh
+browser starts expanded (unless the section is `->collapsedByDefault()`), but the
+state is kept in `localStorage` across tests of one browser session — click the
+section label first if the entry is missing.
+
 ## Reusable Nova test helper
 
 Extract the repetitive login/navigation steps into a trait and `use` it from your
@@ -195,7 +259,7 @@ trait NovaTestHelper
 
 ```bash
 # All tests (Pest)
-php artisan pest
+./vendor/bin/pest
 
 # A single Dusk browser test file, by filter
 php artisan dusk --filter UserResourceTest
@@ -213,3 +277,6 @@ php artisan dusk
 - Assert on translated text via `__()`, not hardcoded strings.
 - Verify the database state after each mutating operation.
 - Build test data with factories; keep tests isolated from one another.
+- For every new screen, one test reaches it by clicking from `/nova` (sidebar
+  entry or the parent's relation panel), and one proves a denied user sees no
+  entry and gets the 403 page.

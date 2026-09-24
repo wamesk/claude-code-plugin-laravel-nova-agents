@@ -1,9 +1,9 @@
 {
   "name": "laravel-nova-agents",
-  "description": "The laravel-nova subagent for building Laravel Nova admin panels — BaseResource abstract class, custom Fields, Actions, Lenses, Filters, Metrics, CSV/Excel export, and Laravel Dusk browser tests — plus the companion wame-nova-patterns skill holding the Nova reference material and Dusk testing patterns. Install alongside laravel-agents: the pest-tester agent conditionally invokes wame-nova-patterns for Nova/Dusk browser testing only when this plugin is present, so non-Nova projects stay clean.",
+  "description": "The laravel-nova subagent for building Laravel Nova admin panels — BaseResource abstract class, custom Fields, Actions, Lenses, Filters, Metrics, CSV/Excel export, and Laravel Dusk browser tests — plus the companion wame-nova-patterns skill holding the Nova reference material and Dusk testing patterns, and the Nova cross-cutting quality rules — every new resource, lens, dashboard or tool is reachable from Nova::mainMenu() or a relation tab, policies and tenant scope cover every query hook, eager loading and index-friendly search, translated help and confirmed destructive actions, and the idioms of the installed Nova version (laravel/nova read from composer.lock; Nova 4 vs Nova 5 differences, built-in idioms by minimum version) — under the same keys teamwork-task-test checks. Install alongside laravel-agents: the pest-tester agent conditionally invokes wame-nova-patterns for Nova/Dusk browser testing only when this plugin is present, so non-Nova projects stay clean.",
   "author": {
     "name": "Stanislav Červeňák",
     "email": "info@wame.sk"
   },
-  "version": "1.0.0"
+  "version": "1.1.0"
 }

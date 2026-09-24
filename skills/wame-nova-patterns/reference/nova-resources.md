@@ -120,6 +120,13 @@ abstract class BaseResource extends NovaResource
 - Auto-translated singular/plural labels and create/update button captions.
 - Query hooks — override `indexQuery()` / `detailQuery()` for eager loading.
 
+**Nova 4:** the typed `Builder $query` / `ScoutBuilder $query` parameters above
+match Nova 5's signatures. On Nova 4 the parent's `$query` is untyped, so this
+class is a fatal `Declaration … must be compatible` as soon as it loads — declare
+`$query` without a type there and keep the return types. See
+`framework` in [`nova-cross-cutting-quality.md`](nova-cross-cutting-quality.md)
+for the other Nova 4 vs Nova 5 differences.
+
 ## Module layout
 
 Resources typically live inside modular packages. Three names can differ and are
@@ -421,3 +428,8 @@ return [
 - Add `showOnPreview()` / `showWhenPeeking()` for key fields.
 - Organize fields with `Panel`s (tabs).
 - Eager load relationships in `indexQuery()` and `detailQuery()`.
+- Make the resource reachable by clicking: in the custom `Nova::mainMenu()` if
+  the project has one, or — with `$displayInNavigation = false` — through a
+  relation field on its parent. Register a policy (with `viewAny`) and apply the
+  tenant scope beyond `indexQuery()`. Keep `searchableColumns()` short and
+  index-friendly. Details: [`nova-cross-cutting-quality.md`](nova-cross-cutting-quality.md).
