@@ -261,6 +261,10 @@ Nova 5-only method is an undefined-method error on the first request.
 
 ### 1. Detect the Nova version and the add-ons
 
+Harden mode only (this step and the lookup in step 2) — in build mode skip them
+and copy the idioms the sibling resources already use; `/wame-harden` checks the
+versions once at the end.
+
 ```bash
 jq -r '[.packages[], (."packages-dev" // [])[]]
   | map(select(.name | test("^laravel/(nova|framework)$"))) | .[] | "\(.name) \(.version)"' composer.lock
@@ -347,13 +351,18 @@ particular:
 
 ## Proving reachability with Dusk
 
-A Dusk test for a new screen starts at `/nova` and reaches the screen by
+Harden mode only; never install or uninstall Dusk or a browser driver for one
+run — a missing runner means asking the user once and installing it
+permanently. A Dusk test for a new screen starts at `/nova` and reaches the screen by
 clicking — through `@sidebar-menu` or through the parent's relation panel — and
 checks that a denied user sees no entry and gets the 403 page. See
 [`nova-dusk-testing.md`](nova-dusk-testing.md) → *Reachability — navigate via
 the menu*.
 
 ## Pre-finish self-check (Nova)
+
+Run it before calling the change done (harden mode; in build mode it is skipped,
+named on the `Deferred checks:` line, and `/wame-harden` runs it once).
 
 - **reachability** — New resource/lens/dashboard/tool is in the custom
   `mainMenu()` if the project has one, or reachable through a relation field on

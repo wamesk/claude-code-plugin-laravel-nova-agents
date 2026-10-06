@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-10-06
+
+Building a Nova screen spent most of each prompt verifying it — Dusk tests, Pint,
+the five-dimension self-check, Nova docs lookups, browser checks — and sometimes
+installed and uninstalled a browser driver for a single run. This release splits
+the work into two modes: **build** builds fast and records what it skipped;
+**harden** (the default) keeps every rule as it was, and the `wame-work-mode`
+plugin's `/wame-harden` runs the deferred checks once at the end.
+
+### Added
+
+- A short **Work mode** section near the top of `laravel-nova` and the
+  `wame-nova-patterns` skill. Mode is `build` when the brief says "build mode" /
+  "režim stavby" or the project's `.claude/wame-mode.local.md` frontmatter says
+  `mode: build`; anything else is `harden`. In build mode the agent keeps every
+  Nova convention (base resource, `help()` with translation keys, eager loading,
+  policy, menu entry or relation tab) but skips Dusk and other tests, Pint,
+  version and docs lookups (it copies the sibling resources' idioms), the
+  pre-finish self-check, browser work, and review sub-steps, and ends with a
+  `Deferred checks: …` line that is also appended to
+  `.claude/wame-deferred.local.md`.
+- A browser-tooling rule in the agent, the skill, `nova-dusk-testing.md`, and
+  the Dusk reachability section: never install or uninstall Dusk, ChromeDriver,
+  Playwright, or Puppeteer for a single run; use the chrome-devtools MCP or the
+  runner the project already has; a missing runner means asking the user once
+  and installing it permanently.
+
+### Changed
+
+- The mandatory steps are now marked "(harden mode)": Dusk browser tests,
+  reading the installed Nova version and the docs lookup, the pre-finish
+  self-check, and the click-from-`/nova` checklist item. Harden-mode wording is
+  otherwise unchanged.
+
 ## [1.1.0] - 2026-09-24
 
 Aligns Nova building with Nova QA: `teamwork-task-test` 1.1.0 reviews every

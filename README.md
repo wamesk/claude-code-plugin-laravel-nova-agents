@@ -31,6 +31,22 @@ available**. Install this plugin in a Nova project and `pest-tester` will write 
 tests; leave it out in a non-Nova project and `pest-tester` skips Nova testing entirely. That
 keeps the universal Laravel agents free of Nova assumptions.
 
+## Work mode (since 1.2.0)
+
+`laravel-nova` and `wame-nova-patterns` read a mode once per task:
+
+| Mode | When | What happens |
+|------|------|--------------|
+| `build` | the brief says "build mode" / "režim stavby", or `.claude/wame-mode.local.md` says `mode: build` | Nova conventions still apply; Dusk and other tests, Pint, version/docs lookups, the pre-finish self-check, browser work, and review sub-steps are skipped. The reply ends with `Deferred checks: …`, also appended to `.claude/wame-deferred.local.md`. |
+| `harden` (default) | anything else | Every rule below applies unchanged. |
+
+The [`wame-work-mode`](https://github.com/wamesk/claude-code-plugin-wame-work-mode) plugin switches the
+mode (`/wame-mode build|harden|status`) and runs the deferred checks once (`/wame-harden`).
+
+**Browser tooling.** Never install or uninstall Dusk, ChromeDriver, Playwright, or Puppeteer for a
+single run. Use the chrome-devtools MCP or the runner the project already has; a missing runner means
+asking the user once and installing it permanently.
+
 ## Cross-cutting quality (since 1.1.0)
 
 [`teamwork-task-test`](https://github.com/wamesk/claude-code-plugin-teamwork-task-test) reviews every
