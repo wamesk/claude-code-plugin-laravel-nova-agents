@@ -14,7 +14,7 @@ one test that reaches it by clicking, from `/nova`, without typing its URL (see
 *Reachability — navigate via the menu*). A deep-linked test passes even when no
 menu entry or relation tab leads to the screen.
 
-Dusk tests are a harden-mode step: in build mode (see *Work mode* in `SKILL.md`)
+Dusk tests are a full-mode step: in fast mode (see *Work mode* in `SKILL.md`)
 they are not written or run, only named on the `Deferred checks:` line. Never
 install or uninstall Dusk, ChromeDriver, Playwright, or Puppeteer for a single
 run — use the runner the project already has, or the chrome-devtools MCP for a
@@ -284,6 +284,6 @@ php artisan dusk
 - Assert on translated text via `__()`, not hardcoded strings.
 - Verify the database state after each mutating operation.
 - Build test data with factories; keep tests isolated from one another.
-- (harden mode) For every new screen, one test reaches it by clicking from `/nova` (sidebar
+- (full mode) For every new screen, one test reaches it by clicking from `/nova` (sidebar
   entry or the parent's relation panel), and one proves a denied user sees no
   entry and gets the 403 page.
