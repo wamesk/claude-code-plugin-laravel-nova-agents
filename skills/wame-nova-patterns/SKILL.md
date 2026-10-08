@@ -23,8 +23,8 @@ patterns, Actions/Lenses/Filters/Metrics, eCharts cards, CSV/Excel export,
 - Adding, renaming, or removing any Nova **screen** (resource, lens, dashboard,
   tool) — make it reachable (menu entry or relation tab, plus inbound links),
   authorized (policy + tenant scope), fast (eager loading, index-friendly search),
-  and understandable (translated help, confirmed destructive actions), and run the
-  pre-finish self-check (full mode; skipped in fast mode).
+  and understandable (translated help, confirmed destructive actions — fast mode
+  too), and run the pre-finish self-check (full mode; skipped in fast mode).
 - Writing any Nova code in a project whose Nova major you have not checked —
   read `laravel/nova` from `composer.lock` first; Nova 4 and Nova 5 code are not
   interchangeable (`framework` in `reference/nova-cross-cutting-quality.md`).
@@ -34,11 +34,16 @@ patterns, Actions/Lenses/Filters/Metrics, eCharts cards, CSV/Excel export,
 - **fast** — the brief says "fast mode" / "rýchly režim", or the project's `.claude/work-mode.local.md` frontmatter says `mode: fast`. Legacy names still count for one version: a brief saying "build mode" / "režim stavby", or `.claude/wame-mode.local.md` saying `mode: build`.
 - **full** — anything else (the default). Every rule in this skill applies unchanged.
 
-In **fast** mode, keep every Nova convention in this skill, but skip Dusk and
-other tests, Pint, version and docs lookups (copy the sibling resources'
-idioms), the pre-finish self-check, browser work, and review sub-steps. End the
-reply with one line `Deferred checks: <what was skipped> — <touched
-files/screens>`, and append the same to `.claude/work-mode-deferred.local.md`
+In **fast** mode verification is deferred, quality is not. Keep every Nova
+convention in this skill and apply the `ui_ux` rules
+(`reference/nova-cross-cutting-quality.md`) exactly as in full mode while
+writing. `performance`, `security`, and `reachability` get no separate planning
+or check, but the code covers them with the patterns the sibling resources
+already use (eager loading, policy and tenant scope, menu entry or relation
+tab). Skip Dusk and other tests, Pint, version and docs lookups (copy the
+sibling resources' idioms), the pre-finish self-check, browser work, and review
+sub-steps. End the reply with one line `Deferred checks: <what was skipped> —
+<touched files/screens>`, and append the same to `.claude/work-mode-deferred.local.md`
 when it exists or the mode came from a mode file. If only the legacy
 `.claude/wame-deferred.local.md` exists, move it to the new name first and
 append there. Never stage or commit the list. `/work-mode full` (plugin

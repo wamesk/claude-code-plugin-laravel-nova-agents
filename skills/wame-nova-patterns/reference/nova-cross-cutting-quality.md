@@ -217,7 +217,9 @@ test('a user of another company cannot open the invoice', function () {
 
 ## `ui_ux` — labels, help, states, destructive actions
 
-**Applies to** every field, action, filter, lens, metric, and card.
+**Applies to** every field, action, filter, lens, metric, and card — in fast
+mode too: these rules are applied while writing the code, exactly as in full
+mode; only the self-check is deferred.
 
 - Labels, help texts, tab names, action names and messages, menu labels: all
   through `__()` with **English keys** in the module's own lang file (see the
@@ -263,7 +265,7 @@ Nova 5-only method is an undefined-method error on the first request.
 
 Full mode only (this step and the lookup in step 2) — in fast mode skip them
 and copy the idioms the sibling resources already use; `/work-mode full` checks the
-versions once at the end.
+versions and their best practices once at the end.
 
 ```bash
 jq -r '[.packages[], (."packages-dev" // [])[]]
@@ -363,6 +365,9 @@ the menu*.
 
 Run it before calling the change done (full mode; in fast mode it is skipped,
 named on the `Deferred checks:` line, and `/work-mode full` runs it once).
+Deferring the check does not drop the rules: in fast mode `ui_ux` still applies
+while writing, and `performance`, `security`, and `reachability` are covered by
+the patterns the sibling resources already use.
 
 - **reachability** — New resource/lens/dashboard/tool is in the custom
   `mainMenu()` if the project has one, or reachable through a relation field on

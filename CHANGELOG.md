@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2026-10-08
+
+Fast mode said to keep every Nova convention and skip the pre-finish self-check,
+but not whether the UI/UX rules were a convention or part of the skipped check.
+This release spells it out: fast mode defers verification, not quality.
+
+### Changed
+
+- **`ui_ux`** applies in fast mode exactly as in full mode, while writing the
+  code — translated labels and help texts, confirmed destructive actions,
+  unavailable actions hidden or explained, fields in panels/tabs like the
+  sibling resources. There is no separate check step.
+- **`performance`, `security`, `reachability`** get no formal planning or check
+  in fast mode, but the code still covers them with the patterns the sibling
+  resources already use — eager loading, policy and tenant scope, menu entry or
+  relation tab.
+- **`framework`** is unchanged: fast mode skips the version and docs lookups and
+  copies the sibling resources' idioms; `/work-mode full` checks the versions and
+  their best practices.
+- The pre-finish self-check stays deferred in fast mode and is named on the
+  `Deferred checks:` line. Full mode is unchanged.
+- Updated in the **Work mode** section, the UI/UX bullet, and the self-check rule
+  of `laravel-nova`, the `wame-nova-patterns` skill, the `ui_ux` and self-check
+  sections of `nova-cross-cutting-quality.md`, the README, and the plugin
+  description.
+
 ## [1.3.0] - 2026-10-07
 
 The `wame-work-mode` plugin is now `work-mode` 2.0.0, and its two modes have

@@ -37,7 +37,7 @@ keeps the universal Laravel agents free of Nova assumptions.
 
 | Mode | When | What happens |
 |------|------|--------------|
-| `fast` | the brief says "fast mode" / "rýchly režim", or `.claude/work-mode.local.md` says `mode: fast` | Nova conventions still apply; Dusk and other tests, Pint, version/docs lookups, the pre-finish self-check, browser work, and review sub-steps are skipped. The reply ends with `Deferred checks: …`, also appended to `.claude/work-mode-deferred.local.md`. |
+| `fast` | the brief says "fast mode" / "rýchly režim", or `.claude/work-mode.local.md` says `mode: fast` | Nova conventions and the `ui_ux` rules still apply while writing; security, performance, and reachability follow the sibling resources' patterns with no separate check; Dusk and other tests, Pint, version/docs lookups, the pre-finish self-check, browser work, and review sub-steps are skipped. The reply ends with `Deferred checks: …`, also appended to `.claude/work-mode-deferred.local.md`. |
 | `full` (default) | anything else | Every rule below applies unchanged. |
 
 The [`work-mode`](https://github.com/wamesk/claude-code-plugin-work-mode) plugin switches the
